@@ -4,10 +4,10 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
-	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket https://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -24,4 +24,70 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.bs.spring" />
+	
+	<!--
+		pojo 클래스를 bean으로 등록하기
+		<beans:bean>태그를 이용해서 등록 -> 객체로 생성하고 보관
+		기본 속성
+		id : spring bean의 이름 -> spring context에서 사용하는 이름
+		class : 대상이 되는 클래스 지정하는 속성 -> 패키지명.클래스명
+		
+	-->
+	<!--기본 생성자로 클래스를 생성해서 beanFactory에 저장-->
+	<beans:bean id="animal" class="com.bs.spring.testmodel.Animal"/>
+	
+	
+<!--	클래스의 필드에 초기값 세팅하여 생성하기
+	1) 매개변수 있는 생성자를 이용해서 세팅
+		<beans:bean> 태그의 자식태그로
+			<beans:contructor-arg>태그를 이용
+				속성 : index(매개변수 지정값, 0번부터 시작), value(매개변수에 대입할 값)
+	2) setter를 이용해서 세팅 -->
+	
+	<beans:bean id="animal2" class="com.bs.spring.testmodel.Animal"
+	scope="prototype">
+	<!-- scope속성
+		singletone : 프로그램 생명 주기동안 한 개의 객체만 존재
+		prototype : 의존성 주입시 새로운 객체를 주입. 여러 객체 존재
+		request : request 생명 주기동안 한 개의 객체만 존재
+		session : session 생명주기동안 한 개의 객체만 존재
+	 -->
+		<beans:constructor-arg index="0" value="강아지"/>
+		<beans:constructor-arg index="1" value="뽀삐"/>
+		<beans:constructor-arg index="2" value="19"/>
+		<beans:constructor-arg index="3" value="13.2"/>
+	</beans:bean>
+	
+	<!--setter를 이용해서 초기값 설정
+		<beans:property>태그를 이용
+			속성 
+			name : 필드명
+			value :  필드에 저장될 값
+	-->
+	
+	<beans:bean id="animal3" class="com.bs.spring.testmodel.Animal">
+		<beans:property name="name" value="바둑이"/> 
+	</beans:bean>
+	
+	<!--
+		생성되는 bean에 기본자료형을 저장할 때는 value 속성을 이용
+		참조형 자료형을 저장할 때는 ref 속성을 이용한다. -> bean id값으로 설정
+		
+	-->
+	
+	<beans:bean id="p" class="com.bs.spring.testmodel.Person">
+		<beans:property name="name" value="뽀삐주인"/>
+		<beans:property name="animal" ref="animal2"/>
+	</beans:bean>
+	 
+	 <!-- bean 등록시 실행해야 할 메소드 지정하기  
+	  	  객체를 생성 후, 객체 소멸 후 실행할 메소드 지정
+	   		init-method : 생성 후 실행할 메소드를 지정
+	   		destroy-method : 소멸 후 실행할 메소드를 지정
+	   		-->
+	 
+	 <beans:bean id="p2" class="com.bs.spring.testmodel.Person"
+	 init-method="initTest" destroy-method="destroyTest"/>
+	 
 </beans:beans>
+	
