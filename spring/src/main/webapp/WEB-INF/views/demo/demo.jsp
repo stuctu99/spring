@@ -6,11 +6,22 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value=""/>
+	<jsp:param name="title" value="Demotest"/>
 </jsp:include>
+
+<style>
+div#demo-container{
+		width:50%;
+		padding:15px;
+		margin:0 auto;
+		border:1px solid lightgray;
+		border-radius:10px;
+	}
+</style>
 <section id="content">
 
 <div id="demo-container">
+		<h2 style="text-align:center">Controller 파라미터 테스트</h2>
 		<form id="devFrm" method="post">
 			<div class="form-group row">
 			<label for="devName" class="col-sm-2 col-form-label">이름</label>
@@ -60,21 +71,31 @@
 					</div>
 				</div>
 			</div>
+			<div class="form-group row">
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-outline-primary col-sm-12"
+						onclick="requestTest('/demo1.do')">
+						서블릿처럼 이용하기
+					</button>
+				</div>
+			</div>
+			
 		</form>
 	</div>
 
 
 </section>
 
-<style>
-div#demo-container{
-		width:50%;
-		padding:15px;
-		margin:0 auto;
-		border:1px solid lightgray;
-		border-radius:10px;
-	}
-</style>
 
+<script>
+
+	const requestTest=(url)=>{
+		const form = document.querySelector("#devFrm");
+		form.action="${path}/demo/"+url;
+		form.submit();
+		
+	}
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

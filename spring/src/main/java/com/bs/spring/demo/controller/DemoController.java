@@ -1,7 +1,15 @@
 package com.bs.spring.demo.controller;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.bs.spring.demo.model.dto.Demo;
 
 @Controller
 public class DemoController {
@@ -42,8 +50,53 @@ public class DemoController {
 	//		매개변수명을 name값과 동일하게 설정해주거나 
 	//		@RequestParam을 이용해서 매핑처리해줌. -> 타입에 맞춰 형변환해줌.
 	//		매개변수가 잘못된 경우 BadRequest에러가 발생.
+	//	8) 클래스타입(DTO) : Data베이스와 연동해서 데이터를 저장하는 객체. 
+	//		클라이언트가 전달한 parameter데이터와 매핑해서 객체를 생성해줌. -> command
+	//		* 객체의 필드와 parameter의 name값이 같은 데이터 매핑.
+	//	9) java.util.Map : 클라이언트가 보낸 데이터를 map으로 처리함. * 모두 단일값으로 받는다.
 	
-				
+	//	10) @RequestHeader(name값) : header정보를 가져올 수 있음.
+	//	11) @CookieValue(name값) : 쿠키에 저장되어있는 값을 가져올 수 있음.
+	
+	//	매핑 메소드에 사용하는 추가 어노테이션
+	//	12) @ResponseBody : 객체를 응답할 때 사용하는 어노테이션. java.class -> json
+	//	13) @RequestBody : 요청 body에 json 데이터가 있으면 지정된 객체로 변환해서 저장. json -> java.class
+	//	14) @ModelAttribute : model 저장 관리 -> hibernate를 이용한 validator
+	//	15) @SessionAttribute(key값) : Httpsession에 저장된 특정 값을 가져올 때 사용.
+	
+	//	16) Model, ModelAndView
+	
+	//서블릿과 동일하게 이용하기
+	@RequestMapping("/demo/demo1.do")
+//	public void demo1(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+	public String demo1(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+
+		//		System.out.println(request);
+//		System.out.println(response);
+		String devName = request.getParameter("devName");
+		int devAge = Integer.parseInt(request.getParameter("devAge"));
+		String devGender = request.getParameter("devGender");
+		String devEmail = request.getParameter("devEmail");
+		String[] devLang = request.getParameterValues("devLang");
+		
+		Demo d= Demo.builder()
+				.devAge(devAge)
+				.devEmail(devEmail)
+				.devName(devName)
+				.devGender(devGender)
+				.devLang(devLang)
+				.build();
+		
+		System.out.println(d);
+		
+		request.setAttribute("demo", d);
+
+		//request.getRequestDispatcher("/WEB-INF/views/demo/demoResult.jsp").forward(request, response);
+		return "demo/demoResult";
+		
+		//return "demo/demoResult";
+		// /WEB-INF/views/demo/demoResult.jsp.forward(req,res);
+	}
 	
 	
 	
