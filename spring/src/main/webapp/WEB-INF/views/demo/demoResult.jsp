@@ -18,23 +18,28 @@
 	<table class="table" id="tbl-dev">
 		<tr>
 			<th scope="col">이름</th>
-			<td></td>
+			<td>${demo.devName}</td>
 		<tr>
 		<tr>
 			<th>나이</th>
-			<td></td>
+			<td>${demo.devAge} </td>
 		</tr>
 		<tr>
 			<th>이메일</th>
-			<td></td>
+			<td>${demo.devEmail }</td>
 		</tr>
 		<tr>
 			<th>성별</th>
-			<td></td>
+			<td>${demo.devGender }</td>
 		</tr>
 		<tr>
 			<th>개발가능언어</th>
 			<td>
+				<ul>
+					<c:forEach var="l" items="${ demo.devLang}">
+						<li>${l }</li>
+					</c:forEach>	
+				</ul>
 				
 			</td>
 		</tr>

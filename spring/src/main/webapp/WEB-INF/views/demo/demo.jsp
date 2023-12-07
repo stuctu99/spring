@@ -25,9 +25,9 @@ div#demo-container{
 		<form id="devFrm" method="post">
 			<div class="form-group row">
 			<label for="devName" class="col-sm-2 col-form-label">이름</label>
-			<div class="col-sm-10">
-				<input type="text" class="form-control" id="devName" name="devName">
-			</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="devName" name="devName">
+				</div>
 			</div>
 			<div class="form-group row">
 			<label for="devAge" class="col-sm-2 col-form-label">나이</label>
@@ -37,9 +37,9 @@ div#demo-container{
 			</div>
 			<div class="form-group row">
 			<label for="devEmail" class="col-sm-2 col-form-label">이메일</label>
-			<div class="col-sm-10">
-				<input type="email" class="form-control" id="devEmail" name="devEmail">
-			</div>
+				<div class="col-sm-10">
+					<input type="email" class="form-control" id="devEmail" name="devEmail">
+				</div>
 			</div>
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label">성별</label>
@@ -54,6 +54,15 @@ div#demo-container{
 					</div>
 				</div>
 			</div>
+			
+			<div class="form-group row">
+			<label for="birthDay" class="col-sm-2 col-form-label">생년월일</label>
+				<div class="col-sm-10">
+					<input type="date" class="form-control" id="birthDay" name="birthDay">
+				</div>
+			</div>
+			
+			
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label">개발언어</label>
 				<div class="col-sm-10">
@@ -65,9 +74,28 @@ div#demo-container{
 					<input class="form-check-input" type="checkbox" name="devLang" id="devLang1" value="C">
 					<label class="form-check-label" for="devLang1">C</label>
 					</div>
-					<div class="form-check form-check-inline">
-					<input class="form-check-input" type="checkbox" name="devLang" id="devLang2" value="Javascript">
-					<label class="form-check-label" for="devLang2">Javascript</label>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" name="devLang" id="devLang2" value="Javascript">
+							<label class="form-check-label" for="devLang2">Javascript</label>
+						</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="zipcode" class="col-sm-2 col-form-label">zipCode</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="devName" name="zipCode">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="city" class="col-sm-2 col-form-label">시,도</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="devName" name="city">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="detail" class="col-sm-2 col-form-label">상세주소</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="devName" name="detail">
 					</div>
 				</div>
 			</div>
@@ -78,7 +106,54 @@ div#demo-container{
 						서블릿처럼 이용하기
 					</button>
 				</div>
-			</div>
+				
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-outline-primary col-sm-12"
+						onclick="requestTest('/demo2.do')">
+						1:1 매칭하기
+					</button>
+				</div>
+				
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-outline-primary col-sm-12"
+						onclick="requestTest('/demo3.do')">
+						requestParam이용하기
+					</button>
+				</div>
+				
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-outline-primary col-sm-12"
+						onclick="requestTest('/demo4.do')">
+						command 이용하기
+					</button>
+				</div>
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-outline-primary col-sm-12"
+						onclick="requestTest('/demo5.do')">
+						Map 이용하기
+					</button>
+				</div>
+					
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-outline-primary col-sm-12"
+						onclick="requestTest('/demo6.do')">
+						추가 데이터 가져오기
+					</button>
+				</div>
+				
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-outline-primary col-sm-12"
+						onclick="requestTest('/demo7.do')">
+						ModelAndView 이용하기
+					</button>
+				</div>
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-outline-primary col-sm-12"
+						onclick="requestTest('insertDemo.do')">
+						demo 저장하기
+					</button>
+				</div>
+				
 			
 		</form>
 	</div>
@@ -91,6 +166,7 @@ div#demo-container{
 
 	const requestTest=(url)=>{
 		const form = document.querySelector("#devFrm");
+// 		form.method="GET";
 		form.action="${path}/demo/"+url;
 		form.submit();
 		

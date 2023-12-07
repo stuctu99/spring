@@ -25,7 +25,7 @@
 	<div id="container">
 		<header>
 			<div id="header-container">
-				${title }
+				${param.title }
 			</div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<a class="navbar-brand" href="#">
@@ -44,6 +44,9 @@
 						</li>
 						<li class="nav-item active">
 							<a class="nav-link" href="${path }/demo/demo.do">Demo(ControllerTest)</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="${path }/demo/demoList.do">DemoList</a>
 						</li>
 					</ul>
 						<button class="btn btn-outline-success my-2 my-sm-0"

@@ -1,18 +1,41 @@
 package com.bs.spring.demo.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.bs.spring.demo.model.dto.Address;
 import com.bs.spring.demo.model.dto.Demo;
+import com.bs.spring.demo.model.service.DemoService;
 
 @Controller
 public class DemoController {
+	
+	private DemoService service;
+	
+	public DemoController(DemoService service) {
+		this.service=service;
+	}
 
 	@RequestMapping("/demo/demo.do")  
 	public String demoPage() {
@@ -98,6 +121,167 @@ public class DemoController {
 		// /WEB-INF/views/demo/demoResult.jsp.forward(req,res);
 	}
 	
+	//클라이언트가 보낸 데이터를 매개변수와 매칭하여 전달받기
+	//클라이언트가 보낸 데이터의 name값과 선언한 매개변수의 변수명이 동일해야함.
+	@RequestMapping("/demo/demo2.do")
+	public String demo2(String devName, int devAge, String devEmail, String devGender, String[] devLang,
+							Model model) {
+		
+		System.out.println(devName + devAge + devEmail + devGender + Arrays.toString(devLang));
+		
+		Demo d = Demo.builder()
+						.devName(devName)
+						.devGender(devGender)
+						.devAge(devAge)
+						.devEmail(devEmail)
+						.devLang(devLang)
+						.build();
+		
+		//스프링에서 데이터를 저장할 수 있는 클래스를 제공.
+		// Model 클래스 -> request와 생명주기가 동일함.
+		// addAttribute() 메소드를 이용 -> key, value 형식으로 데이터를 저장
+		// addAttribute("key",Object);
+		model.addAttribute("demo",d);
+		
+		
+		
+		return "demo/demoResult";
 	
+	}
+	
+	//클라이언트가 보낸 데이터에 대한 옵션 설정하기
+	//@RequestParam 어노테이션을 이용
+	//속성값을 설정함.
+	//value, defaultValue, required
+	
+	@RequestMapping("/demo/demo3.do")
+	public String requestParamTest(
+					@RequestParam(value="devName") String name,
+					@RequestParam(value="devAge", defaultValue="10") int age,
+					@RequestParam(value="devEmail") String email,
+					@RequestParam(value="devGender", required=false) String gender,
+					@RequestParam (value="devLang", required=true) String[] lang,
+					Model model) {
+		
+		Demo d = Demo.builder()
+				.devName(name)
+				.devAge(age)
+				.devEmail(email)
+				.devGender(gender)
+				.devLang(lang)
+				.build();
+		
+		model.addAttribute("demo", d);
+		
+		
+		return "demo/demoResult";
+	}
+	
+	//DTO객체로 직접 클라이언트가 보낸 데이터 받기
+	//클라이언트가 보낸 데이터의 key(name)값과 필드명이 일치해야 함.
+	//Date타입에 태해 java.sql.Date타입은 변경해서 대입해줌. java.util.Date는 parse 못함.
+	
+	@RequestMapping(value="/demo/demo4.do", method=RequestMethod.POST)
+	public String commandMapping(@ModelAttribute Demo demo, Address address, Model m) {
+		demo.setAddress(address);
+		System.out.println(demo);
+		m.addAttribute("demo",demo);
+		return "demo/demoResult";
+		
+	}
+	
+	//Map으로 클라이언트가 보낸 데이터 받기
+	@RequestMapping("/demo/demo5.do")
+	public String demo5(@RequestParam Map param, String[] devLang, Model m) {
+		
+		System.out.println(param);
+		param.put("devLang", devLang);
+		m.addAttribute("demo", param);
+		
+		return "demo/demoResult";
+		
+		
+	}
+	
+	//추가 데이터 받아오기
+	//Cookie, Header, Session에 저장된 값을 가져오기
+	//Cookie : @CookieValue(value = "key") String data
+	//Header : @RequestHeader(value = "key") String header
+	//Session : @SessionAttribute(value = "key") String id
+	
+	@RequestMapping("/demo/demo6.do")
+	public String extraData(
+					@CookieValue(value="cookieData", required=false) String cdata,
+					@RequestHeader(value="User-agent") String userAgent,
+					@SessionAttribute(value="sessionId") String sessionId) {
+			System.out.println("쿠키 : " + cdata);
+			System.out.println("userAgent : " + userAgent);
+			System.out.println("세션 : " + sessionId);
+		return "index";
+	}
+	
+	
+	@RequestMapping("/demo/demo7.do")
+	public ModelAndView modelViewTest(Demo d, ModelAndView mv) {
+		//ModelAndView 클래스는 view, model을 한번에 저장/관리하는 객체.
+		//view : setViewName()메소드를 이용해서 화면 선택.
+		//data : addObject("key", Object)메소드를 이용해서 저장
+		mv.setViewName("demo/demoResult");
+		mv.addObject("demo", d);
+		
+		//매개변수 있는 생성자로 생성
+//		ModelAndView mv2 = new ModelAndView("demo/demoResult","demo","d");
+		
+		Map data = mv.getModel();
+		
+		String viewName = mv.getViewName();
+		
+		return mv;	
+	}
+	
+	//객체를 선언
+	@RequestMapping("/demo/demo8.do")
+	@ResponseBody
+	public String dataReturn() {
+		return "data"; //data.jsp로 가지 않고 "data"가 출력됨
+		
+//		return "유병승,이규홍,최경현,이지혜";
+		
+	}
+	
+	@GetMapping("/test2")
+	public String getTest() {
+		System.out.println("get으로 요청");
+		return "index";
+		
+	}
+	@PostMapping("/test2")
+	public String postTest(){
+		System.out.println("post로 요청");
+		return "index";
+	}
+	
+	//동적 주소를 설정할 수 있음.
+	
+	// member/admin
+	// board/3 GET
+	@GetMapping("/demo/{no}")
+	public String searchDemo(@PathVariable String no) { //int, String...
+		System.out.println(no);
+		return "index";
+	}
+	
+	//@PostMapping 써도 됨
+	@RequestMapping("/demo/insertDemo.do")
+	public String insertDemo(Demo d) {
+		service.insertDemo(d);
+		return "index";
+	}
+	
+	@RequestMapping("/demo/demoList.do")
+	public void demoList(Model model) {
+		List<Demo> demos = service.selectDemoList();
+		model.addAttribute("demos",demos);
+	}
 	
 }

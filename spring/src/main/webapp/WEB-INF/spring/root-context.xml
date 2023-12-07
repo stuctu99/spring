@@ -6,4 +6,28 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx https://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		
+	<!-- 
+		3개의 DB연결에 필요한 bean을 등록함.
+		1. Data 연결 정보를 저장하는 클래스 -> BasicDataSource 클래스
+		2. SqlSession을 생성해주는 클래스 -> SqlSessionFactoryBean 클래스
+		3. SqlSession 클래스 -> SqlSessionTemplate클래스
+		
+	 -->	
+		
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@14.36.141.71:10001:xe"/>
+		<property name="username" value="spring"/>
+		<property name="password" value="spring"/>
+	</bean>		
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<property name="mapperLocations" value="classpath:mappers/**/*.xml"/>
+	</bean>
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"/>
+	</bean>
 </beans>
