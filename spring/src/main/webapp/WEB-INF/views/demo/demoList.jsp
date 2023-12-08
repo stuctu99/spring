@@ -31,10 +31,20 @@
 					<td>
 						<c:out value="${Arrays.toString(d.devLang) }"/>
 					</td>
+					<td>
+						<button class="btn btn-outline-warning" onclick="updateDemo(${d.devNo})">수정하기</button>
+					</td>
 				</tr>
 			</c:forEach>
 		</c:if>		
 	</table>	
 
 </section>
+<script>
+	const updateDemo=(devNo)=>{
+		
+		location.assign("${path}/demo/updatedemo.do?devNo="+devNo);
+		
+	}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

@@ -18,4 +18,12 @@ public class DemoDao {
 		return session.selectList("demo.selectDemoList");
 		
 	}
+	
+	public Demo selectDemoByNo(SqlSession session, int devNo) {
+		return session.selectOne("demo.selectDemoByNo", devNo);
+	}
+	
+	public int updateDemo(SqlSession session, Demo d) {
+		return session.update("demo.updatedemo",d);
+	}
 }

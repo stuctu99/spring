@@ -273,9 +273,24 @@ public class DemoController {
 	
 	//@PostMapping 써도 됨
 	@RequestMapping("/demo/insertDemo.do")
-	public String insertDemo(Demo d) {
-		service.insertDemo(d);
-		return "index";
+	public String insertDemo(Demo d, Model model) {
+		//insert는 dispatcher.forward로 응답하면 안됨! 계속 insert됨 -> PRG (post-redirect-get)
+		int result = service.insertDemo(d);
+		//Redirect로 응답하기
+		//redirect:요청주소 (매핑주소. jsp 노노)
+//		return "index";
+		String msg,loc;
+		if(result>0) {
+			msg="입력 성공";
+			loc="demo/demoList.do";
+		}else {
+			msg="입력 실패";
+			loc="demo/demo.do";
+		}
+		model.addAttribute("msg",msg);
+		model.addAttribute("loc",loc);
+//		return "redirect:/";
+		return "common/msg";
 	}
 	
 	@RequestMapping("/demo/demoList.do")
@@ -283,5 +298,34 @@ public class DemoController {
 		List<Demo> demos = service.selectDemoList();
 		model.addAttribute("demos",demos);
 	}
+	
+	@RequestMapping("/demo/updatedemo.do")
+	public String updateDemo(int devNo, Model model) {
+		Demo d = service.selectDemoByNo(devNo);
+		model.addAttribute("demo",d);
+		model.addAttribute("langList", Arrays.asList(d.getDevLang()));
+		return "demo/updateDemo";
+	}
+	
+//	@RequestMapping(value="/demo/updateDemoend.do", method=RequestMethod.POST)
+	@PostMapping("/demo/updateDemoend.do")
+	public String updateDemoend(Demo d, Model model) {
+		int result = service.updateDemo(d);
+		String msg,loc;
+		if(result>0) {
+			msg="수정 성공";
+			loc="demo/demoList.do";
+		}else {
+			msg="수정 실패";
+			loc="demo/updatedemo.do?devNo="+d.getDevNo();
+		}
+		model.addAttribute("msg",msg);
+		model.addAttribute("loc",loc);
+		
+		return "common/msg";
+	}
+	
+	
+	
 	
 }

@@ -4,6 +4,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,9 @@ import com.bs.spring.testmodel.dto.Test;
 
 @Controller
 public class HelloSpring {
+	
+	//log4j 객체 생성하기
+	private final Logger logger = LoggerFactory.getLogger(HelloSpring.class);
 	
 	//springbean으로 등록된 객체 이용하기
 	//필드에서 주입을 받아 이용이 가능하다. -> 
@@ -79,9 +84,28 @@ public class HelloSpring {
 	
 	@RequestMapping("/")
 	public String index(HttpSession session, HttpServletResponse response) {
+		
+		//log4j를 이용해서 log 출력하기
+		//1. log4j 클래스를 생성
+		//2. 생성된 객체에서 제공하는 메소드를 이용
+		//	level별로 메소드를 제공함
+		//	debug("") : <logger>태그의 level이 debug일 때 출력 
+		//	info("") : <logger>태그의 level이 info일 때 출력 
+		//	warn("") : <logger>태그의 level이 warn일 때 출력 
+		//	error("") : <logger>태그의 level이 error일 때 출력 
+		
+		
+		logger.debug("debug로그");
+		logger.info("info로그");
+		logger.warn("warn로그");
+		logger.error("error로그");
+		
 		Cookie c = new Cookie("cookieData","cookiecookie");
 		c.setMaxAge(60*60*24);
 		response.addCookie(c);
+		
+		//출력 대상이 문자열이 아닌 경우 패턴으로 설정
+		logger.debug("쿠키 : {}", c);
 		
 		session.setAttribute("sessionId", "admin");
 		

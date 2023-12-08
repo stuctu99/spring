@@ -28,4 +28,12 @@ public class DemoService {
 	public List<Demo> selectDemoList(){
 		return dao.selectDemoList(session);
 	}
+	
+	public Demo selectDemoByNo(int devNo) {
+		return dao.selectDemoByNo(session, devNo);
+	}
+	
+	public int updateDemo(Demo d) {
+		return dao.updateDemo(session, d);
+	}
 }
