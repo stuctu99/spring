@@ -48,6 +48,9 @@
 						<li class="nav-item active">
 							<a class="nav-link" href="${path }/demo/demoList.do">DemoList</a>
 						</li>
+						<li class="nav-item active">
+							<a class="nav-link" href="${path }/memo/memo.do">Memo</a>
+						</li>
 					</ul>
 					<c:if test="${empty loginMember }" var="loginResult">
 						<button class="btn btn-outline-success my-2 my-sm-0"

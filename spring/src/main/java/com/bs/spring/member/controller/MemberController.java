@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -70,14 +73,17 @@ public class MemberController {
 	}
 
 	@RequestMapping("/enrollMember.do")
-	public void enrollMember(Member m, Model model) {
+	public void enrollMember(@ModelAttribute("member") Member m) {
 		
-//		return "member/enrollMember";
-		
+		//@ModelAttribute Member m 같은 의미! -> (매개변수 Model m)m.addAllAttributes("m",new Member());
 	}
 	
 	@RequestMapping("/enrollMemberEnd.do")
-	public String enrollMemberEnd(Member m, Model model) {
+	public String enrollMemberEnd(@Validated Member m, BindingResult isResult, Model model) {
+		
+		if(isResult.hasErrors()) {
+			return "member/enrollMember";
+		}
 		
 		//BCryptPasswordEncoder클래스가 제공하는 메소드를 이용해서 단방향 암호화하기
 		//encode()메소드를 이용

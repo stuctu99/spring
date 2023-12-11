@@ -85,9 +85,25 @@
 	   		init-method : 생성 후 실행할 메소드를 지정
 	   		destroy-method : 소멸 후 실행할 메소드를 지정
 	   		-->
+	 		
 	 
 	 <beans:bean id="p2" class="com.bs.spring.testmodel.Person"
 	 init-method="initTest" destroy-method="destroyTest"/>
+	 
+	 <!-- 인터셉터 적용 설정하기 -->
+	<beans:bean id="loginCheckInterceptor" class="com.bs.spring.common.interceptor.LoginCheckInterceptor"/>
+	 <interceptors>
+	 	<interceptor>
+	 		<mapping path="/member/*"/>
+<!-- 	 		 <beans:bean class="com.bs.spring.common.interceptor.LoginCheckInterceptor"/> -->
+	 		 <beans:ref bean="loginCheckInterceptor"/>
+	 	</interceptor>
+	 	<interceptor>
+	 		<mapping path="/demo/*"/>
+	 		<exclude-mapping path="/demo/demoList.do"/>
+	 		<beans:ref bean="loginCheckInterceptor"/>
+	 	</interceptor>
+	 </interceptors>
 	 
 </beans:beans>
 	
