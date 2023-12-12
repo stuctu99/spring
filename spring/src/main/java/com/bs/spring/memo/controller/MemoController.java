@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bs.spring.common.PageFactory;
 import com.bs.spring.memo.model.dto.Memo;
-import com.bs.spring.memo.model.service.MemoServiceImpl;
+import com.bs.spring.memo.model.service.MemoService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,9 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/memo")
 public class MemoController {
 
-	private MemoServiceImpl service;
+	private MemoService service;
 	private PageFactory pageFactory;
-	public MemoController(MemoServiceImpl service, PageFactory pageFactory) {
+	public MemoController(MemoService service, PageFactory pageFactory) {
 		
 		this.service = service;
 		this.pageFactory = pageFactory;

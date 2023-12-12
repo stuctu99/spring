@@ -3,6 +3,7 @@ package com.bs.spring.demo.controller;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bs.spring.demo.model.dto.Address;
@@ -31,18 +33,35 @@ import com.bs.spring.demo.model.service.DemoService;
 @Controller
 public class DemoController {
 	
+	private WebApplicationContext context;
+	
+	
 	private DemoService service;
 	
-	public DemoController(DemoService service) {
+	public DemoController(DemoService service, WebApplicationContext context) {
 		this.service=service;
+		this.context=context;
 	}
 
+	//국제화 메세지 출력하기
+	@GetMapping("/message")
+	public String getGreeting(Model m) {
+		m.addAttribute("greetingKr",context.getMessage("greeting",null,Locale.KOREA));
+		m.addAttribute("greetingUs",context.getMessage("greeting",null,Locale.US));
+		
+		return "common/message";
+	}
+	
 	@RequestMapping("/demo/demo.do")  
 	public String demoPage() {
 //	public void demoPage() {
 		//경로 + view 이름만 반환 -> 자동으로 viewResolver가 jsp를 찾아서 반환.
 		// /WEB-INF/views/+반환값+.jsp -> RequestDispatcher.forward()
-		return "demo/demo";
+//		int su=0;
+//		if(su==0) {
+//			throw new IllegalArgumentException("에러러에러러");
+//		}
+			return "demo/demo";
 	}
 	
 	//void면 확장자 빼고 중간에있는 주소를 가지고 매핑해줌.
