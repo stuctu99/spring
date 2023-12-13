@@ -39,7 +39,7 @@ public class WebConfig {
 		
 		exceptionResolver.setExceptionMappings(exceptionProp);
 		
-		exceptionResolver.setDefaultErrorView("common/defaulterror");
+//		exceptionResolver.setDefaultErrorView("common/defaulterror");
 		
 		return exceptionResolver;
 	

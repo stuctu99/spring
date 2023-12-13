@@ -8,15 +8,26 @@
 	<jsp:param name="title" value=""/>
 </jsp:include>
 <style>
-  .error{
-    	color:magenta;
-    	font-weight:bolder;
-    }
+/*   .error{ */
+/*     	color:magenta; */
+/*     	font-weight:bolder; */
+/*     } */
+.boardheader{
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+}
 </style>
 
 <section id="board-container" class="container">
-        <p>총 ${totalContents }건의 게시물이 있습니다.</p>
-          <button class="btn btn-outline-warning" onclick="location.assign('${path }/board/insertBoard.do')">글쓰기</button>
+       <div class="boardheader">
+	        <p>총 ${totalContents }건의 게시물이 있습니다.</p>
+	        <div>
+	          <button class="btn btn-outline-warning" onclick="location.assign('${path }/board/insertBoard.do')">
+	        	 글쓰기
+	          </button>
+	        </div>
+       </div>
         <table id="tbl-board" class="table table-striped table-hover">
             <tr>
                 <th>번호</th>
@@ -31,13 +42,23 @@
 	            	<tr>
 	            		<td><c:out value="${b.boardNo}"/></td>
 	            		<td><a href="${path}/board/boardView.do?boardNo=${b.boardNo}"><c:out value="${b.boardTitle}"/></a></td>
-	            		<td><c:out value="${b.boardWriter}"/></td>
-	            		<td><c:out value="${b.boardDate}"/></td>
+	            		<td><c:out value="${b.writer.userId}"/></td>
+	            		<td><fmt:formatDate value="${b.boardDate}" pattern="yyyy년 MM월 dd일 E"/></td>
+	            		<td>
+	            			<c:if test="${b.files.size()>0 }">
+	            				<img src="${path }/resources/images/file.png" width="20px">
+	            				<span>${b.files.size() }</span>
+	            			</c:if>
+	            		</td>
 	            		<td><c:out value="${b.boardReadCount}"/></td>
 					</tr>
 				</c:forEach>
 			</c:if>      
             	
         </table> 
+        
+        <div>
+        	${pageBar }
+        </div>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

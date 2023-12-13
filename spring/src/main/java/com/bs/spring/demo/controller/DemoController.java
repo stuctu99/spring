@@ -48,7 +48,13 @@ public class DemoController {
 	public String getGreeting(Model m) {
 		m.addAttribute("greetingKr",context.getMessage("greeting",null,Locale.KOREA));
 		m.addAttribute("greetingUs",context.getMessage("greeting",null,Locale.US));
+	
 		
+		m.addAttribute("testUs", 
+						context.getMessage("test.msg", new Object[] {"BY Lee", "happy"}, Locale.US));
+		m.addAttribute("testUs", 
+				context.getMessage("test.msg", new Object[] {"이보연", "행복"}, Locale.KOREA));
+
 		return "common/message";
 	}
 	

@@ -11,6 +11,8 @@
 
 	<h3>ko : ${greetingKr }</h3>
 	<h3>us : ${greetingUs }</h3>
+	<h3>Kr : ${testKr}</h3>
+	<h3>us : ${testUs}</h3>
 
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

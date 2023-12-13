@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.bs.spring.board.model.dto.Attachment;
 import com.bs.spring.board.model.dto.Board;
 
 
@@ -14,6 +15,7 @@ import com.bs.spring.board.model.dto.Board;
 public class BoardDaoImpl implements BoardDao {
 
 	
+
 	@Override
 	public Board selectBoard(SqlSession session, int boardNo) {
 		return session.selectOne("board.selectBoard",boardNo);
@@ -35,6 +37,11 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public int insertBoard(SqlSession session, Board b) {
 		return session.insert("board.insertBoard", b);
+	}
+	
+	@Override
+	public int insertAttachment(SqlSession session, Attachment attachment) {
+		return session.insert("board.insertAttachment", attachment);
 	}
 
 	

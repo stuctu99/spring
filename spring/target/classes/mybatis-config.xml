@@ -11,5 +11,6 @@
 		<typeAlias type="com.bs.spring.common.StringListTypeHandler" alias="strList"/>
 		<typeAlias type="com.bs.spring.memo.model.dto.Memo" alias="memo"/>
 		<typeAlias type="com.bs.spring.board.model.dto.Board" alias="board"/>
+		<typeAlias type="com.bs.spring.board.model.dto.Attachment" alias="attachment"/>
 	</typeAliases>
 </configuration>

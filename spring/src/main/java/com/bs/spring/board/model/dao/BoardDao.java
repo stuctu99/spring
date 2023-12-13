@@ -5,17 +5,18 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.bs.spring.board.model.dto.Attachment;
 import com.bs.spring.board.model.dto.Board;
 
 public interface BoardDao {
 
-
-	public Board selectBoard(SqlSession session, int boardNo);
+	Board selectBoard(SqlSession session, int boardNo);
 	
-	public List<Board> selectBoardList(SqlSession session, Map<String, Integer> page);
-	public int selectBoardCount(SqlSession session);
+	List<Board> selectBoardList(SqlSession session, Map<String, Integer> page);
+	int selectBoardCount(SqlSession session);
 	
-	public int insertBoard(SqlSession session, Board b);
+	int insertBoard(SqlSession session, Board b);
 	
+	int insertAttachment(SqlSession session, Attachment attachment);
 	
 }

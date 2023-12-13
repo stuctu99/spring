@@ -13,18 +13,23 @@
     div#board-container label.custom-file-label{text-align:left;}
     </style>
 <section id="content">
-${board }
+
  <div id="board-container">
         <input type="text" class="form-control" value="${board.boardTitle }" name="boardTitle" id="boardTitle" readonly  required>
-        <input type="text" class="form-control" name="boardWriter" value="${board.boardWriter }" readonly required>
-
-                    <button type="button" 
-                    class="btn btn-outline-success btn-block"
-                    onclick="">
-            </button>
+        <input type="text" class="form-control" name="boardWriter" value="${board.writer.userId }" readonly required>
+<!-- 		첨부파일 -->
+		<c:if test="${board.files.size()>0 }">
+			<c:forEach var="file" items="${board.files }">
+	            <button type="button" 
+	                    class="btn btn-outline-success btn-block"
+	                    onclick="">
+	                    ${file.originalFilename }
+	            </button>
+            </c:forEach>
+        </c:if>
         
         
-        <textarea class="form-control" name="boardContent" value="${board.boardContent }" readonly required></textarea>
+        <textarea class="form-control" name="boardContent" readonly required>${board.boardContent }</textarea>
     </div>
 
 

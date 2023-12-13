@@ -42,4 +42,13 @@
 		</property>
 	</bean>
 	
+<!-- 	트랜젝션 처리 bean 등록하기 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="proxyDataSource"></property>
+	</bean>
+	
+	<!-- 어노테이션 방식으로 트랜젝션 처리하기 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	
 </beans>
