@@ -1,17 +1,24 @@
 package com.bs.spring.board.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -148,6 +155,40 @@ public class BoardController {
 		return "common/msg";
 	}
 	
+	@RequestMapping("/filedownload.do")
+	public void fileDownload(String oriname, String rename, OutputStream out, 
+							HttpSession session, HttpServletResponse response, 
+							@RequestHeader(value="user-agent") String header) {
+//		log.debug(oriname);
+		
+		String path = session.getServletContext().getRealPath("/resources/upload/board/");
+		File downloadFile = new File(path+rename);
+		try(FileInputStream fis=new FileInputStream(downloadFile);
+			BufferedInputStream bis = new BufferedInputStream(fis);
+			BufferedOutputStream bos = new BufferedOutputStream(out);){
+					
+			boolean isMS = header.contains("Trident")||header.contains("MSIE");
+			String encodeFileName="";
+			
+			if(isMS) {
+				encodeFileName = URLEncoder.encode(oriname, "UTF-8");
+				encodeFileName = encodeFileName.replaceAll("\\+", "%20");
+			}else {
+				encodeFileName = new String(oriname.getBytes("UTF-8"), "ISO-8859-1");
+			}
+			
+			response.setContentType("application/octet-stream;charset=utf-8");
+			response.setHeader("Content-Disposition", "attachment;filename=\""+encodeFileName+"\"");
+			int data=-1;
+			while((data=bis.read())!=-1) {
+				bos.write(data);
+				
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 
 

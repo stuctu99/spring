@@ -238,7 +238,22 @@
 		    <version>1.4</version>
 		</dependency>
 		 		
-				
+		<!-- ajax 응답 처리 라이브러리 추가하기
+			gson, jackson 라이브러리 --> 		
+		 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10.1</version>
+		</dependency>
+		 		
+				<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.15.2</version>
+		</dependency>
+			
 	</dependencies>
     <build>
         <plugins>

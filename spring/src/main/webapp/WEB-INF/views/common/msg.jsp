@@ -6,5 +6,5 @@
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <script>
 	alert("${msg}");
-	location.replace("${path}/${loc}");
+	location.replace("${path}${loc}");
 </script>

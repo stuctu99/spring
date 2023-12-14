@@ -14,8 +14,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import com.bs.spring.common.exception.BadAuthenticationException;
 import com.bs.spring.member.model.dto.Member;
 
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class AuthenticationCheckAOPAspect {
 
 	@Before("execution(* com.bs.spring.memo..*(..))")

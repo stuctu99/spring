@@ -22,7 +22,7 @@
 			<c:forEach var="file" items="${board.files }">
 	            <button type="button" 
 	                    class="btn btn-outline-success btn-block"
-	                    onclick="">
+	                    onclick="fn_filedownload('${file.originalFilename}','${file.renamedFilename }');">
 	                    ${file.originalFilename }
 	            </button>
             </c:forEach>
@@ -31,7 +31,12 @@
         
         <textarea class="form-control" name="boardContent" readonly required>${board.boardContent }</textarea>
     </div>
+<script>
+	const fn_filedownload=(oriname,rename)=>{
 
+		location.assign("${path}/board/filedownload.do?oriname="+oriname+"&rename="+rename)
+	}
+</script>
 
 
 </section>

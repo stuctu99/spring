@@ -29,7 +29,7 @@
 		SELECT COUNT(*) FROM BOARD
 	</select>
 	
-	<select id="selectBoard" parameterType="_int" resultType="board">
+	<select id="selectBoard" parameterType="_int" resultMap="boardMap">
 		SELECT * FROM BOARD JOIN MEMBER ON USERID=BOARDWRITER
 						LEFT JOIN ATTACHMENT USING(BOARDNO)
 			WHERE BOARDNO = #{boardNo}
