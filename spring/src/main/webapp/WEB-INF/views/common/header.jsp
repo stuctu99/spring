@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <c:set var="path" value="${pageContext.request.contextPath}"/>
+    <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,10 @@
 	<div id="container">
 		<header>
 			<div id="header-container">
-				${param.title }
+				<h2>${param.title }</h2>
+				<!-- securitycontext에 저장된 데이터 가져오기  -->
+<%-- 				${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }		 --%>
+<%-- 				${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal==null}		 --%>
 			</div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<a class="navbar-brand" href="#">
@@ -71,7 +75,10 @@
 							</a>
 							님, 환영합니다.
 						</span>
-						<button class="btn btn-outline-primary" onclick="location.replace('${path}/member/logout.do');">로그아웃</button>
+						<button class="btn btn-outline-danger" onclick="openChatting();">
+							채팅하기
+						</button>
+						<button class="btn btn-outline-primary" onclick="location.replace('${path}/logout');">로그아웃</button>
 					</c:if>
 				</div>
 			</nav>	
@@ -87,12 +94,13 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form action="${path }/login" method="post">
+					<form action="${path }/loginend" method="post">
 						<div class="modal-body">
-							<input type="text" name="username" class="form-control"
+							<input type="text" name="userId" class="form-control"
 							placeholder="아이디입력" required><br/>
-							<input type="password" name="password" class="form-control"
-							placeholder="패스워드입력" required>											
+							<input type="password" name="pw" class="form-control"
+							placeholder="패스워드입력" required>		
+							<label><input type="checkbox" name="saveUser">로그인 유지</label>									
 						</div>
 						<div class="modal-footer">
 							<button type="submit" class="btn btn-outline-black">로그인</button>
@@ -105,4 +113,11 @@
 		</div>
 		
 </header>
+
+<script>
+	const openChatting=()=>{
+			open("${path}/chatpage","_blank","width=400, height=500");
+		
+	}
+</script>
 		

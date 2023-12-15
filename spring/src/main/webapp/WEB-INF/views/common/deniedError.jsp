@@ -5,15 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param name="title" value="로그인 페이지"/>
+	<jsp:param name="title" value="에러 페이지"/>
 </jsp:include>
 <section id="content">
-	<form action="${path }/loginend" method="post">
-		<input type="text" name="userId"><br>
-		<input type="password" name="pw"><br>
-		<label><input type="checkbox" name="saveUser">로그인 유지</label>			
-		<button class="btn btn-outline-primary">로그인</button>
-	</form>
-
+	<img src="https://img.freepik.com/premium-vector/simple-vector-prohibition-sign-no-access-for-pedestrian-at-gray-background_9834-1404.jpg"
+		width="200px">
+	<h3 style="color:red">서비스를 이용할 권한이 없습니다 :( </h3>
 </section>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

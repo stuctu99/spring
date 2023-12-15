@@ -36,29 +36,63 @@
 		<!-- 로그아웃 처리 설정 
 			logout-url: 로그아웃 처리할 URL
 			logout-success-url: 로그아웃 처리 후 이동할 URL-->
-<!-- 		<security:logout/> -->
+<!-- 		<security:logout logout-url="/seculogout.do" /> -->
 		
-		<!-- 권한에 따른 이용서비스 설정(URL패턴으로 설정)  
+		
+		<!-- 
+			권한에 따른 이용서비스 설정(URL패턴으로 설정)  
 			<security:inercept-url>태그를 이용해서 설정
 			pattern: 서비스 URL패턴 /member/*, notice/*
 			access: 권한에 대한 설정 permitAll(), hasAnyAuthority("권한명","권한명"...), 
 						hasAuthority("권한"), hasRole("ROLE_USER"), hasAnyRole("ROLE_ADMIN","ROLE_USER")
 			기본적으로 모든 서비스 차단함.
 			
+		-->
+			<!-- 
+				remember-me 구현 
+				remember-me-parameter : checkbox의 name값
 			-->
+			<security:remember-me
+				remember-me-parameter="saveUser"
+				user-service-ref="loginService"
+				token-validity-seconds="604800"/> <!-- 7일 -->
+			
+			
+			
 			<security:intercept-url pattern="/" access="permitAll()"/>
 			<security:intercept-url pattern="/loginpage" access="permitAll()"/>
 			<security:intercept-url pattern="/resources/**" access="permitAll()"/>
+<!-- 			<security:intercept-url pattern="/member/enrollMember.do" access="permitAll()"/> -->
+			<security:intercept-url pattern="/test/**" access="hasAnyAuthority('test')"/>
+			<security:intercept-url pattern="/manage/**" access="hasAuthority('admin')"/>
 			<security:intercept-url pattern="/**" access="hasAnyAuthority('admin','user')"/>
+		
+			<!-- 권한이 부족한 사용자가 접속했을 때 error 페이지 연결하기 -->
+			<security:access-denied-handler error-page="/WEB-INF/views/common/deniedError.jsp"/>
+		
 		
 	</security:http>
 
 	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="bslove" authorities="admin" password="$2a$10$AsVFk02Oak0bIVNAI3gk7eKsc9D/4wxow4kHW7xI1S6fc2FzDcIlC"/>
-			</security:user-service>
-			<security:password-encoder ref="bcryptPassword"/>
-		</security:authentication-provider>
+<!-- 		<security:authentication-provider> -->
+<!-- 			<security:user-service> -->
+<!-- 				<security:user name="bslove" authorities="admin" password="$2a$10$AsVFk02Oak0bIVNAI3gk7eKsc9D/4wxow4kHW7xI1S6fc2FzDcIlC"/> -->
+<!-- 			</security:user-service> -->
+<!-- 			<security:password-encoder ref="bcryptPassword"/> -->
+<!-- 		</security:authentication-provider> -->
+			<!-- 
+				UserDetailsService 인터페이스를 구현한 클래스를 선언 
+				loadUserByUsername() 추상 메소드를 재정의
+			-->
+			<security:authentication-provider user-service-ref="loginService">	
+				<security:password-encoder ref="bcryptPassword"/>
+			</security:authentication-provider>
+			
 	</security:authentication-manager>
+	<bean id="securityDao" class="com.bs.spring.member.model.dao.MemberDaoImpl"/>
+	
+	<bean id="loginService" class="com.bs.spring.security.controller.SecurityLoginService">
+		<constructor-arg index="0" ref="securityDao"/>
+		<constructor-arg index="1" ref="sqlSessionTemplate"/>
+	</bean>
 </beans>

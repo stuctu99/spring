@@ -42,7 +42,8 @@
 		<beans:bean> 태그의 자식태그로
 			<beans:contructor-arg>태그를 이용
 				속성 : index(매개변수 지정값, 0번부터 시작), value(매개변수에 대입할 값)
-	2) setter를 이용해서 세팅 -->
+	2) setter를 이용해서 세팅 
+-->
 	
 	<beans:bean id="animal2" class="com.bs.spring.testmodel.Animal"
 	scope="prototype">
@@ -120,6 +121,18 @@
 	 		</beans:list>
 	 	</beans:property>
 	 </beans:bean>
+	 
+	 <beans:bean id="chattingServer" class="com.bs.spring.websocket.ChattingServer"/>
+	 
+	 <!-- websockethandler 등록 -->
+	 <websocket:handlers>
+	 	<websocket:mapping handler="chattingServer" path="/chatting"/>
+	 	<websocket:handshake-interceptors>
+	 		<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+	 	</websocket:handshake-interceptors>
+	 </websocket:handlers>
+	 
+	 <beans:bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
 	 
 </beans:beans>
 	
