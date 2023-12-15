@@ -18,7 +18,7 @@ server.onopen =(response)=>{
 	}
 	
 	const addAttend=(msg)=>{
-		const attendPerson=Json.parse(msg.msg);
+		const attendPerson=JSON.parse(msg.msg);
 		const $attendContainer = document.querySelector("#attendContainer");
 		$attendContainer.innerHTML="";
 			const $ul=document.createElement("ul");
