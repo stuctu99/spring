@@ -66,7 +66,7 @@ server.onopen =(response)=>{
 			$div.classList.add("left");
 		}
 		document.querySelector("#chattingcontent").appendChild($div);
-		
+		 
 	}
 
 	const sendMessage=()=>{
