@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+	<!-- DB 설정하기 -->
+	<persistence-unit name="bstest">
+		<properties>
+			<!-- DB연결정보설정 -->
+			<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@14.36.141.71:10001:xe"/>
+			<property name="javax.persistence.jdbc.user" value="spring"/>
+			<property name="javax.persistence.jdbc.password" value="spring"/>
+			
+			<!-- hibernate 관련 설정 -->
+			<!-- 방언 설정하기 -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+			
+			<!-- 
+				logger설정 : sql문에 대한 로그 설정
+			 -->
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+			
+			<!-- 
+				DDL구문처리 설정하기 
+				create, create-drop, update, validate, none
+			-->
+			<property name="hibernate.hbm2ddl.auto" value="create"/>
+			
+		</properties>
+	</persistence-unit>
+</persistence>

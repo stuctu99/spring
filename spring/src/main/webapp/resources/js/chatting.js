@@ -12,6 +12,7 @@ server.onopen =(response)=>{
 			case "open" : alertMessage(receiveMsg); break; 
 			case "msg" : messagePrint(receiveMsg); break;
 			case "attend" : addAttend(receiveMsg); break;
+			case "close" : alertMessage(receiveMsg); break;
 			
 		}
 
@@ -74,14 +75,13 @@ server.onopen =(response)=>{
 		server.send(new Message("msg",loginId,"",msg,"").convert());
 	}
 	
-	const alertMessage=(msg)=>{
-		const container=$("<div>").addClass("alertContainer");
-		const content=$("<h4>").text(`${msg.sender} 님이 접속하셨습니다.`);
-		container.append(content);
-		$("#chattingcontent").append(container);
-		
-		
-	}
+const alertMessage=(msg)=>{
+	const container=$("<div>").addClass("alertContainer");
+	const status=msg.type=='open'?"접속":"퇴장";
+	const content=$("<h4>").text(`${msg.sender} 님이 ${status}하셨습니다`);
+	container.append(content);
+	$("#chattingcontent").append(container);
+}
 	
 	window.onload=()=>{
 		document.getElementById("msg").addEventListener("keyup",e=>{

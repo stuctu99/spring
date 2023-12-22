@@ -23,12 +23,19 @@
 	<button class="btn btn-outline-dark" onclick="insertMember();">
 		회원 가입
 	</button><br>
-	<div id="data-container">
+	<div id="data-container"></div>
 	
-	</div>
+	<button class="btn btn-outline-success" onclick="exceldownload();">
+		demoListExcel 다운로드
+	</button>
 	
 </section>
 <script>
+
+	const exceldownload=()=>{
+		location.assign("${path}/demo/exceldownload");
+		
+	}
 
 	const insertMember=()=>{
 		fetch("${path}/member",{

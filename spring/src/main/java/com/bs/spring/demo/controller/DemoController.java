@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
+import com.bs.spring.common.ExcelDemoListConvert;
 import com.bs.spring.demo.model.dto.Address;
 import com.bs.spring.demo.model.dto.Demo;
 import com.bs.spring.demo.model.service.DemoService;
@@ -41,6 +43,15 @@ public class DemoController {
 	public DemoController(DemoService service, WebApplicationContext context) {
 		this.service=service;
 		this.context=context;
+	}
+	
+	@RequestMapping("/demo/exceldownload")
+	public View downloadDemoExcel(Model model) {
+		List<Demo> demoList = service.selectDemoList();
+		model.addAttribute("demoList", demoList);
+		
+		return new ExcelDemoListConvert();
+		
 	}
 
 	//국제화 메세지 출력하기
